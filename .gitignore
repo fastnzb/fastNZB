@@ -259,3 +259,4 @@ paket-files/
 appsettings.txt
 
 /src/FastNZB/.awcache
+.DS_Store
