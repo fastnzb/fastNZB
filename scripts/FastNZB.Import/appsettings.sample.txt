@@ -1,0 +1,5 @@
+﻿#copy this to appsettings.txt
+MySQL Server=127.0.0.1;Database=fastnzb;UID=root;Password=;SslMode=None
+BaseUrl https://localhost:5000
+NZBPath /
+ApiKey 123

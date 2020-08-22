@@ -1,0 +1,91 @@
+﻿<div class="logout" [hidden]="!authenticationService.currentUser">
+    <div style="color: #999; font-size: 12px;">apikey: {{ authenticationService.currentUser ? authenticationService.currentUser.apiKey : '' }}</div>
+    <div class="d-none d-md-block" style="color: #999; font-size: 12px;">api requests: {{ authenticationService.currentUser ? authenticationService.currentUser.apiRequests : '' }}/unlimited</div>    
+    <button (click)="logout()" class="btn btn-default btn-sm" style="color: #fff;">Logout <i class="fas fa-sign-out-alt"></i></button>
+</div>
+  
+<div class="center-login" [hidden]="!authenticationService.sessionChecked || authenticationService.currentUser" style="text-align: center">
+    <img src="/assets/img/nzb.png" class="logo" />   <br />
+    <button type="button" class="btn btn-danger btn-md" (click)="loginModal.show()">Login</button>
+    <button type="button" class="btn btn-primary btn-md" (click)="registerModal.show()">Register</button>    
+</div>
+
+<div [hidden]="authenticationService.sessionChecked">
+    <div class="loading"></div>        
+</div>
+
+<release-search [hidden]="!authenticationService.currentUser"></release-search>
+
+<div class="modal fade" bsModal #loginModal="bs-modal" [config]="{backdrop: 'static'}"
+     tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" style="color: #000">
+  <div class="modal-dialog modal-md">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title pull-left">Login</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="loginModal.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <alert [hidden]="!loginError">{{loginError}}</alert>
+        <form name="form" (ngSubmit)="f.form.valid && login()" #f="ngForm" novalidate>
+            <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !UserName.valid }">
+                <label for="UserName">Username</label>
+                <input type="text" class="form-control" name="UserName" [(ngModel)]="model.UserName" #UserName="ngModel" required />
+                <div *ngIf="f.submitted && !UserName.valid" class="help-block">Username is required</div>
+            </div>
+            <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !Password.valid }">
+                <label for="Password">Password</label>
+                <input type="password" class="form-control" name="Password" [(ngModel)]="model.Password" #Password="ngModel" required />
+                <div *ngIf="f.submitted && !Password.valid" class="help-block">Password is required</div>
+            </div>
+            <div class="form-group">
+                <button [disabled]="loading" class="btn btn-primary">Login</button>
+                <button [disabled]="loading" type="button" class="btn btn-default" (click)="reset()">Reset Password</button>
+                <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />                
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" bsModal #registerModal="bs-modal" [config]="{backdrop: 'static'}"
+     tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" style="color: #000">
+  <div class="modal-dialog modal-md">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title pull-left">Register</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="registerModal.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <alert [hidden]="!registerMessage">{{registerMessage}}</alert>
+        <form name="form2" (ngSubmit)="ff.form.valid && register()" #ff="ngForm" novalidate>            
+            <div class="form-group" [ngClass]="{ 'has-error': ff.submitted && !username.valid }">
+                <label for="username">Username</label>
+                <input type="text" class="form-control" name="username" [(ngModel)]="model.UserName" #username="ngModel" required />
+                <div *ngIf="ff.submitted && !username.valid" class="help-block">Username is required</div>
+            </div>
+            <div class="form-group" [ngClass]="{ 'has-error': ff.submitted && !emailaddress.valid }">
+                <label for="emailaddress">Email</label>
+                <input type="text" class="form-control" name="emailaddress" [(ngModel)]="model.Email" #emailaddress="ngModel" required />
+                <div *ngIf="ff.submitted && !emailaddress.valid" class="help-block">Email is required</div>
+            </div>
+            <div class="form-group" [ngClass]="{ 'has-error': ff.submitted && !password.valid }">
+                <label for="password">Password</label>
+                <input type="password" class="form-control" name="password" [(ngModel)]="model.Password" #password="ngModel" required />
+                <div *ngIf="ff.submitted && !password.valid" class="help-block">Password is required</div>
+            </div>
+            <div class="form-group">
+                <button [disabled]="loading" class="btn btn-primary">Register</button>
+                <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />                
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+

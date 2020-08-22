@@ -1,0 +1,47 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <AssemblyName>FastNZB.ServiceInterface</AssemblyName>
+    <PackageId>FastNZB.ServiceInterface</PackageId>        
+    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FastNZB.ServiceModel\FastNZB.ServiceModel.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>    
+    <PackageReference Include="MailKit" Version="1.16.2" />
+    <PackageReference Include="MimeKit" Version="1.16.2" />
+    <PackageReference Include="MySql.Data" Version="8.0.11.0" />
+    <PackageReference Include="System.Xml.XmlSerializer" Version="4.3.0" />  
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="ServiceStack">
+      <HintPath>..\lib\ServiceStack.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack.Client">
+      <HintPath>..\lib\ServiceStack.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack.Common">
+      <HintPath>..\lib\ServiceStack.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack.Interfaces">
+      <HintPath>..\lib\ServiceStack.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack.OrmLite">
+      <HintPath>..\lib\ServiceStack.OrmLite.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack.Server">
+      <HintPath>..\lib\ServiceStack.Server.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack.Text">
+      <HintPath>..\lib\ServiceStack.Text.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

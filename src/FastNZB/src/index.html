@@ -1,0 +1,74 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>fastNZB</title>
+  <meta name="description" content="<%= htmlWebpackPlugin.options.title %>">
+  <!-- Enable bootstrap 4 theme -->
+  <script>window.__theme = 'bs4';</script>
+  <!-- base url -->
+  <base href="<%= htmlWebpackPlugin.options.metadata.baseUrl %>">
+  
+    <style type="text/css">
+    .loading {
+      height: 3em;
+      width: 3em;
+      animation: rotation 1s infinite linear;
+      
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-top-color: rgba(255, 255, 255, 0.7);
+      border-radius: 50%;
+    }
+
+    @keyframes rotation {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    html, body {
+      height: 100%;
+    }
+    body {
+      margin: 0;
+    }
+
+    .loading {      
+      position: absolute;
+      width: 3em;
+      height: 3em;
+      z-index: 15;
+      top: 50%;
+      left: 50%;
+      margin: -1.5em 0 0 -1.5em;      
+    }
+  </style>
+  <% if (webpackConfig.htmlElements.headTags) { %>
+  <!-- Configured Head Tags  -->
+  <%= webpackConfig.htmlElements.headTags %>
+  <% } %>
+
+
+  <%= htmlWebpackPlugin.files.webpackManifest %>
+
+  <% if (htmlWebpackPlugin.options.metadata.isDevServer && htmlWebpackPlugin.options.metadata.HMR !== true) { %>
+  <!-- Webpack Dev Server reload -->
+  <script src="/webpack-dev-server.js"></script>
+  <% } %>
+
+  <!-- CSS will be injected by webpack here -->
+  <!-- Preload link tags will be injected by webpack here -->
+
+</head>
+
+<body style="background-color: #151617; color:#fff">
+
+  <app>
+    <!--Loading...-->      
+    <div class="loading"></div>
+  </app>  
+  <!-- Scripts will be injected by webpack here -->
+</body>
+</html>

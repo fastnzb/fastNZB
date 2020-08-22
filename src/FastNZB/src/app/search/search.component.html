@@ -1,0 +1,81 @@
+<div class="logout" [hidden]="!authenticationService.currentUser">
+    <div style="color: #999; font-size: 12px;">apikey: {{ authenticationService.currentUser ? authenticationService.currentUser.apiKey : '' }}</div>    
+    <button (click)="logout()" class="btn btn-default btn-sm" style="color: #fff;">Logout <i class="fas fa-sign-out-alt"></i></button>
+</div>
+
+<div [hidden]="!authenticationService.currentUser">
+    <div class="top-search">
+        <div class="container-fluid">
+            <div class="row">
+            <div class="col-md-11" style="float: none; margin: 0 15px">        
+                <div id="search-component">
+                <div class="row">            
+                    <div class="form-inline">
+                    <a routerLink="/"><img src="/assets/img/nzb.png" class="logo" /></a>
+                    <input #searchBox id="search-box" class="input-lg form-control" [(ngModel)]="searchTerm" (keyup.enter)="search(searchBox.value)" style="width: 300px" />
+                    </div>
+                </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid" style=""  infinite-scroll [infiniteScrollDistance]="1" [infiniteScrollThrottle]="500" (scrolled)="onScroll()">
+    <div class="row">
+      <div class="col-md-12" style="">
+          <div class="row head d-none d-md-flex">
+            <div class="col-md-9">
+              <div class="title" style="margin-left: 20px">Name</div>
+            </div>
+            <div class="col-md-1" style="text-align: center">
+              <div class="size" (click)="sort('size')">Size</div>
+            </div>
+            <div class="col-md-1" style="text-align: center">
+              <div class="age">Age</div>
+            </div>
+            <div class="col-md-1">              
+              <div class="download"><i class="fa fa-download" style=""></i></div>
+            </div>                                  
+          </div>
+          <div *ngFor="let release of releases; let i=index" class="search-result row" [ngClass]="release.open ? 'open' : 'closed'" (click)="showNZBs(release);" >
+            
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="title wrap" style="margin-left: 20px">{{release.name}}</div>                                
+                </div>                                    
+                <span [hidden]="!release.loading"><i class="fas fa-circle-notch fa-spin" style="position: absolute; right: 45px; margin-top: 5px;"></i></span>
+              </div>     
+
+              <div *ngFor="let nzb of release.nzbs" class="nzb" [hidden]="!release.open" (click)="$event.stopPropagation();">
+                <div class="row">
+                  <div class="col-md-8">
+                    <div class="title wrap">{{nzb.name}}</div>
+                  </div>
+                  <div class="col-md-1">
+                    <div class="vote">
+                      <a (click)="upVote(nzb)" class="btn btn-default btn-sm" style="color: #fff; padding: 0 0 12px 0; cursor: pointer;"><i class="fa fa-arrow-up"></i></a>
+                      {{ nzb._Votes }}
+                      <a (click)="downVote(nzb)" class="btn btn-default btn-sm" style="color: #fff; padding: 0 0 12px 0; cursor: pointer;"><i class="fa fa-arrow-down"></i></a>
+                    </div>
+                  </div>
+                  <div class="col-md-1" style="text-align: center">
+                    <div class="size">{{nzb.size | bytes}}</div>
+                  </div>
+                  <div class="col-md-1" style="text-align: center">
+                    <div class="age">{{nzb._Days}}d</div>
+                  </div>
+                  <div class="col-md-1">
+                    <div class="download d-none d-md-block"><a href="/api/nzb/{{nzb.guid}}" class="btn btn-default btn-sm" style="color: #fff;" angulartics2On="click" angularticsEvent="download"><i class="fa fa-download"></i></a></div>
+                    <div class="download d-md-none" style="text-align: right"><a href="/api/nzb/{{nzb.guid}}" class="btn btn-default btn-lg" style="color: #fff; padding: 0 0 12px 0" angulartics2On="click" angularticsEvent="download"><i class="fa fa-download"></i></a></div>
+                  </div>      
+                  </div>        
+              </div>                        
+            </div>           
+          </div>          
+        </div>
+        <div style='clear: both;'></div>  
+    </div>
+  
+  <div class="loading" [hidden]="!loading"></div>    
+</div>

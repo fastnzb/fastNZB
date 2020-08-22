@@ -1,0 +1,16 @@
+﻿<div class="center-search">
+  <div class="container-fluid">
+    <div class="row">
+      <div style="float: none; margin: 0 15px">        
+        <div id="search-component">
+          <div class="row">            
+            <div [class.form-inline]="showResults">
+              <img src="/assets/img/nzb.png" class="logo" />      
+              <input #searchBox id="search-box" class="input-lg form-control" (keyup.enter)="search(searchBox.value)" style="width:100%;" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

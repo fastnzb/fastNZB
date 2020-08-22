@@ -1,0 +1,9 @@
+<div class="center-login" style="text-align: center">
+    <img src="/assets/img/nzb.png" class="logo" />   <br />    
+    <div class="vote">
+        <a (click)="upVote(nzb)" class="btn btn-default btn-sm" style="color: #fff; padding: 0 0 12px 0"><i class="fas fa-arrow-up"></i></a>
+        {{ nzb._Votes }}
+        <a (click)="downVote(nzb)" class="btn btn-default btn-sm" style="color: #fff; padding: 0 0 12px 0"><i class="fas fa-arrow-down"></i></a>
+    </div>
+    <div class="wrap" style="font-size: 12px; position: relative; top: 75px;">{{ nzb.name }}</div>
+</div>

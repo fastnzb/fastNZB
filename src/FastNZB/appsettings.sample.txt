@@ -1,0 +1,14 @@
+#copy to appsettings.txt
+MySQL Server=127.0.0.1;Database=fastnzb;UID=root;Password=;SslMode=None
+MySQLRead Server=127.0.0.1;Database=fastnzb;UID=root;Password=;SslMode=None
+AWS_ACCESS_KEY 123
+AWS_SECRET_KEY 123
+S3BucketName fastnzb
+Redis 127.0.0.1
+BaseUrl https://localhost:5000
+FSPath /
+SMTPHost email-smtp.us-east-1.amazonaws.com
+SMTPUser 123
+SMTPPass 123
+EmailFromName fastNZB
+EmailFrom test@domain.local
